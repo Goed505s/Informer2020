@@ -1,4 +1,4 @@
-from data.data_loader import Dataset_ETT_hour, Dataset_ETT_minute, Dataset_Custom, Dataset_Pred
+from data.data_loader import Dataset_ETT_hour, Dataset_ETT_minute, Dataset_Custom, Dataset_Pred, COVID_DATASET
 from exp.exp_basic import Exp_Basic
 from models.model import Informer, InformerStack
 
@@ -68,7 +68,9 @@ class Exp_Informer(Exp_Basic):
             'WTH':Dataset_Custom,
             'ECL':Dataset_Custom,
             'Solar':Dataset_Custom,
-            'custom':Dataset_Custom,
+            'custom':Dataset_Custom,            
+            'COVID': COVID_DATASET,
+
         }
         Data = data_dict[self.args.data]
         timeenc = 0 if args.embed!='timeF' else 1
@@ -156,7 +158,7 @@ class Exp_Informer(Exp_Basic):
                     train_data, batch_x, batch_y, batch_x_mark, batch_y_mark)
                 loss = criterion(pred, true)
                 train_loss.append(loss.item())
-                
+                print("Epcoh")
                 if (i+1) % 100==0:
                     print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
                     speed = (time.time()-time_now)/iter_count
